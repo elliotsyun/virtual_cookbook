@@ -2,8 +2,13 @@ import os
 import sys
 from collections import defaultdict
 
+# file imports
+from AppController import *
+
 def main():
-# TODO
+    app = AppController()
+    app.mainloop()
+
 
 if __name__ == "__main__":
     main()
