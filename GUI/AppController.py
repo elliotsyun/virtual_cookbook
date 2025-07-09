@@ -1,6 +1,6 @@
 import tkinter as tk
-from MainWindow import *
-from NewRecipeWindow import *
+from GUI.MainFrame import *
+from GUI.NewRecipeFrame import *
 
 # "iPhone-size" according to google lol
 WINDOW_GEOMETRY = "375x667"
@@ -24,7 +24,7 @@ class AppController(tk.Tk):
         self.frames = {}
 
         # for each class, initialize new windows with parent=container and container=AppController
-        for F in (MainWindow, NewRecipeWindow):
+        for F in (MainFrame, NewRecipeFrame):
             frame = F(container, self)
 
             # add the frames to the dictionary by their unique ID

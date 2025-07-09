@@ -3,7 +3,7 @@ import sys
 from collections import defaultdict
 
 # file imports
-from AppController import *
+from GUI.AppController import *
 
 def main():
     app = AppController()

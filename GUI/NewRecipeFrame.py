@@ -1,8 +1,8 @@
 import tkinter as tk
-from MainWindow import *
+from GUI.MainFrame import *
 
-NEW_RECIPE_WINDOW_ID = 2
-class NewRecipeWindow(tk.Frame):
+NEW_RECIPE_Frame_ID = 2
+class NewRecipeFrame(tk.Frame):
     
     # Each window should have
     def __init__(self, parent, controller):
@@ -12,7 +12,7 @@ class NewRecipeWindow(tk.Frame):
         self.controller = controller
         
         # set the NewRecipeWindow ID
-        self.id = NEW_RECIPE_WINDOW_ID
+        self.id = NEW_RECIPE_Frame_ID
         
         # test code for outlining page navigation, clicking the button re-displays the MainWindow
         tk.Label(self, text="Add new recipe", font=("Arial", 16)).pack(pady=20)
