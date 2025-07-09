@@ -1,5 +1,7 @@
 import tkinter as tk
 from GUI.MainFrame import *
+from Recipe.RatedRecipeDecorator import *
+from Recipe.ProteinRecipeDecorator import *
 
 NEW_RECIPE_Frame_ID = 2
 class NewRecipeFrame(tk.Frame):
@@ -16,4 +18,4 @@ class NewRecipeFrame(tk.Frame):
         
         # test code for outlining page navigation, clicking the button re-displays the MainWindow
         tk.Label(self, text="Add new recipe", font=("Arial", 16)).pack(pady=20)
-        tk.Button(self, text="Go back", command=lambda: controller.showFrame(1)).pack()        
+        tk.Button(self, text="Go back", command=lambda: controller.showFrame(1)).pack()      
