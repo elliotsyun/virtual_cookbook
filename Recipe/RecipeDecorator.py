@@ -1,4 +1,5 @@
 from Recipe.Recipe import *
+from Recipe.RecipeFactory import *
 
 # RecipeDecorator allows us to wrap recipes with additional functionality/attributes
 class RecipeDecorator(Recipe):
@@ -8,5 +9,3 @@ class RecipeDecorator(Recipe):
     # getattr allows us to access "deeper" fields in wrapped objects
     def __getattr__(self, name):
         return getattr(self.recipe, name)
-
-

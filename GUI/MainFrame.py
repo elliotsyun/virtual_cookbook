@@ -16,4 +16,4 @@ class MainFrame(tk.Frame):
     
         # test code to display page navigation, clicking the button changes the page to the "NewRecipeWindow"
         tk.Label(self, text="Welcome to the Recipe App", font=("Arial", 16)).grid(row=0, column=2)
-        tk.Button(self, text="Add a New Recipe", command=lambda: controller.showFrame(2)).grid(row=1, column=2)
+        tk.Button(self, text="Add a New Recipe", command=lambda: controller.showFrame(2)).grid(row=1, column=2, sticky="nsew")
