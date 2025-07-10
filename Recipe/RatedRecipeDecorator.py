@@ -8,5 +8,9 @@ class RatedRecipeDecorator(RecipeDecorator):
         self.rating = rating
         self.fields.append("rating")
 
+    # added toString()-esque function for testing recipe contents
+    def __str__(self):
+        return str(self.recipe) +  "\n" + str(self.rating)
+
 
 
