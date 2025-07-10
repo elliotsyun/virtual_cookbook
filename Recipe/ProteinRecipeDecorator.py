@@ -8,5 +8,9 @@ class ProteinRecipeDecorator(RecipeDecorator):
         self.protein = protein
         self.fields.append("protein")
 
+    # added toString()-esque function for testing recipe contents
+    def __str__(self):
+        return str(self.recipe) +  "\n" + str(self.protein)        
+
 
 

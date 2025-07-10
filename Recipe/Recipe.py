@@ -15,3 +15,5 @@ class Recipe():
         # the "fields" is to allow the program to know which fields to display
         self.fields = ["title", "ingredients", "steps", "timestamp"]
 
+    def __str__(self):
+        return self.title + "\n" + str(self.ingredients) + "\n" + str(self.steps)
