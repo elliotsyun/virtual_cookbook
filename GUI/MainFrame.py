@@ -8,7 +8,7 @@ class MainFrame(tk.Frame):
     def __init__(self, parent, controller):
         
         # call the tk.Frame constructor
-        super().__init__(parent)
+        super().__init__(parent) # parent = container from the main app
         self.controller = controller
         
         # set the ID of the MainWindow... this will be '1' to allow for a potential error page @ '0'
