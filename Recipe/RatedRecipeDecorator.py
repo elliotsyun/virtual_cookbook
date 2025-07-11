@@ -5,6 +5,8 @@ class RatedRecipeDecorator(RecipeDecorator):
 
     def __init__(self, recipe, rating: int):
         super().__init__(recipe)
+        
+        # this implementation of 'rating' is NOT bounded
         self.rating = rating
         self.fields.append("rating")
 

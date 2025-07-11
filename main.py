@@ -14,14 +14,14 @@ def main():
     app.mainloop()
     db = RecipeDatabase()
     
-    decorator1 = Recipe(["1", "2"], ["4", "5"], "test")
-    decorator2 = RatedRecipeDecorator(decorator1, 5)
-    db.addToDatabase(decorator2)
+    # decorator1 = Recipe(["1", "2"], ["4", "5"], "test")
+    # decorator2 = RatedRecipeDecorator(decorator1, 5)
+    # db.addToDatabase(decorator2)
 
-    decorator3 = ProteinRecipeDecorator(decorator2, 21)
-    db.addToDatabase(decorator3)
+    # decorator3 = ProteinRecipeDecorator(decorator2, 21)
+    # db.addToDatabase(decorator3)
 
-    db.writeToDatabase()
+    # db.writeToDatabase()
     db.printDatabase()
 
     decorator1 = Recipe(["1", "2"], ["4", "5"], "test")
