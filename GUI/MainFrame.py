@@ -1,5 +1,6 @@
 import tkinter as tk
 from GUI.NewRecipeFrame import *
+from RecipeDatabase import *
 
 MAIN_FRAME_ID = 1
 class MainFrame(tk.Frame):
@@ -18,6 +19,18 @@ class MainFrame(tk.Frame):
         tk.Label(self, text="Welcome to the Recipe App", font=("Arial", 16)).grid(row=0, column=2)
         tk.Button(self, text="Add a New Recipe", command=lambda: controller.showFrame(2)).grid(row=1, column=2, sticky="nsew")
 
+        self.recipe_container_frame = tk.Frame(self, bg="lightblue", width=200, height=100)
+        self.recipe_container_frame.grid(row=1, column=1, sticky="nsew")
 
-        recipe_frame = tk.Frame(self, bg="lightblue", width=200, height=100)
-        recipe_frame.grid(row=2, column=2, sticky="nsew")
+'''
+    def updateMainFrame(self):
+        db = RecipeDatabase()
+        for recipe in db.database:
+            recipe.to_frame(self.recipe_container_frame)
+            recipe.grid(row=1, column=1, sticky="nsew")
+            print("adding recipe, ", recipe.title)
+
+'''
+            
+
+

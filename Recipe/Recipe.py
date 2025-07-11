@@ -1,6 +1,8 @@
 from typing import List
 import time
 
+import tkinter as tk
+
 # the recipe class is the most basic recipe possible
 class Recipe():
 
@@ -33,3 +35,12 @@ class Recipe():
     @classmethod
     def from_dict(cls, data):
         return cls(data["ingredients"], data["steps"], data["title"])
+    
+    # i am almost CERTAIN that this is the kind of function we need to display the recipe information...
+    def to_frame(self, root):
+        recipe_frame = tk.Frame(root, bg="green", width=30, height=30)
+        tk.Label(recipe_frame, text="PLEASE", font=("Arial", 16)).grid(row=0, column=2)
+
+        # the 'recipe_frame' will be the way of displaying the basic info
+        
+        return recipe_frame
