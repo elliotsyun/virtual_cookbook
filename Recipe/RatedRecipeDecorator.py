@@ -28,5 +28,22 @@ class RatedRecipeDecorator(RecipeDecorator):
         inner = RecipeFactory.from_dict(data["recipe"])
         return cls(inner, data["rating"])    
 
+    def to_frame(self, root, placement):
+        
+        # pending design descisions, this is how you would add text ON TOP of the Recipe to_frame frame
+        parent_frame = self.recipe.to_frame(root, placement)
+        tk.Label(parent_frame, text=f"{self.rating} rating", font=("Arial", 12), bg=RECIPE_DISPLAY_BACKGROUND_COLOR).pack(anchor="w", padx=10)
+        return parent_frame
+
+        # code to override the Recipe to_frame, in case we don't want to keep adding attributes
+#        recipe_frame = tk.Frame(root, bg=RECIPE_DISPLAY_BACKGROUND_COLOR, bd=4, relief="ridge")
+#        recipe_frame.pack(fill="x", padx=10, pady=10)
+
+#        tk.Label(recipe_frame, text=self.title, font=("Arial", 14, "bold"), bg=RECIPE_DISPLAY_BACKGROUND_COLOR).pack(anchor="w", padx=10, pady=5)
+#        tk.Label(recipe_frame, text=f"{len(self.ingredients)} ingredients", font=("Arial", 12), bg=RECIPE_DISPLAY_BACKGROUND_COLOR).pack(anchor="w", padx=10)
+#        tk.Label(recipe_frame, text=f"{self.rating} rating", font=("Arial", 12), bg=RECIPE_DISPLAY_BACKGROUND_COLOR).pack(anchor="w", padx=10)       
+
+#        return recipe_frame
+
 
 

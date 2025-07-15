@@ -61,6 +61,7 @@ class MainFrame(tk.Frame):
         self.scrollable_frame.bind_all("<MouseWheel>", lambda event: canvas.yview_scroll(int(-1*(event.delta/120)), "units"))
 
         # Add recipe frames to scrollable frame
+        # NOTE: in the future, when we want to only show "protein recipes" or "discover", those will be separate arrays like "db.proteinRecipe" instead of "db.database"
         db = RecipeDatabase()
         for i, recipe in enumerate(db.database):
             recipe.to_frame(self.scrollable_frame, i)
