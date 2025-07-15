@@ -6,7 +6,6 @@ from GUI.NewRecipeFrame import *
 WINDOW_GEOMETRY = "375x667"
 APP_TITLE = "Good Eats"
 
-
 class AppController(tk.Tk):
 
     def __init__(self):

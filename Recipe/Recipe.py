@@ -3,6 +3,9 @@ import time
 
 import tkinter as tk
 
+# color
+RECIPE_DISPLAY_BACKGROUND_COLOR = "green"
+
 # the recipe class is the most basic recipe possible
 class Recipe():
 
@@ -37,10 +40,14 @@ class Recipe():
         return cls(data["ingredients"], data["steps"], data["title"])
     
     # i am almost CERTAIN that this is the kind of function we need to display the recipe information...
-    def to_frame(self, root):
-        recipe_frame = tk.Frame(root, bg="green", width=30, height=30)
-        tk.Label(recipe_frame, text="PLEASE", font=("Arial", 16)).grid(row=0, column=2)
+    def to_frame(self, root, placement):
 
-        # the 'recipe_frame' will be the way of displaying the basic info
-        
+        # note: bd = border, border=4 for testing purposes
+        recipe_frame = tk.Frame(root, bg=RECIPE_DISPLAY_BACKGROUND_COLOR, bd=4, relief="ridge")
+        recipe_frame.pack(fill="x", padx=10, pady=10)
+
+        tk.Label(recipe_frame, text=self.title, font=("Arial", 14, "bold"), bg=RECIPE_DISPLAY_BACKGROUND_COLOR).pack(anchor="w", padx=10, pady=5)
+        tk.Label(recipe_frame, text=f"{len(self.ingredients)} ingredients", font=("Arial", 12), bg=RECIPE_DISPLAY_BACKGROUND_COLOR).pack(anchor="w", padx=10)
+        tk.Label(recipe_frame, text=f"{len(self.steps)} steps", font=("Arial", 12), bg=RECIPE_DISPLAY_BACKGROUND_COLOR).pack(anchor="w", padx=10)
+
         return recipe_frame

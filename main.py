@@ -8,6 +8,7 @@ from Recipe.RatedRecipeDecorator import *
 from Recipe.ProteinRecipeDecorator import *
 from RecipeDatabase import *
 
+WINDOW_LENGTH = 375
 
 def main():
     app = AppController()
