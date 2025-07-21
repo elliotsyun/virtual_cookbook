@@ -13,6 +13,7 @@ class NewRecipeFrame(tk.Frame):
         
         # call the tk.Frame constructor
         super().__init__(parent)
+        self.parent = parent
         self.controller = controller
 
         # creating a reference to the RecipeDatabase
@@ -56,6 +57,9 @@ class NewRecipeFrame(tk.Frame):
 
         # Add the recipe to the database and return the user to the MainFrame
         self.recipe_database.addToDatabase(new_recipe)
+
+        self.controller.frames[1].load_new_recipe(new_recipe)
+
         self.controller.showFrame(1)
 
 

@@ -57,13 +57,29 @@ class MainFrame(tk.Frame):
         # Allow mousewheel scrolling
         self.scrollable_frame.bind_all("<MouseWheel>", lambda event: canvas.yview_scroll(int(-1*(event.delta/120)), "units"))
 
-        # Add recipe frames to scrollable frame
-        # NOTE: in the future, when we want to only show "protein recipes" or "discover", those will be separate arrays like "db.proteinRecipe" instead of "db.database"
+        # load the recipes into the MainFrame scrollable window
+        self.load_database_recipes()
+
+        # add the footer to the MainFrame
+        self.footer = AppFooter(self, controller)
+
+    def load_database_recipes(self):
+        # clear all of the existing recipes
+        for recipe in self.scrollable_frame.winfo_children():
+            recipe.destroy()
+
+        # load all of the recipes from the database
         db = RecipeDatabase()
         for i, recipe in enumerate(db.database):
             recipe.to_frame(self.scrollable_frame, i)
-        
-        self.footer = AppFooter(self, controller)
+
+    # if we just want to add 1 new recipe (i.e on recipe creation) then this is faster
+    def load_new_recipe(self, recipe): 
+        db = RecipeDatabase()
+        recipe.to_frame(self.scrollable_frame, len(db.database))
+
+    def refresh(self):
+        self.load_recipes()        
         
 
   

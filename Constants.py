@@ -3,7 +3,6 @@ TESTING_BORDER_SIZE = 0
 TESTING_BORDER_TYPE = "solid"
 
 # size, note: "iPhone size" according to google is 375x667... may have to adjust
-MAIN_FRAME_ID = 1
 WINDOW_WIDTH = 375
 WINDOW_HEIGHT = 667
 
@@ -36,6 +35,8 @@ HEADER_PROFILE_BUTTON_SIZE = (25, 25)
 
 
 # MainFrame Styling
+MAIN_FRAME_ID = 1
+
 MAIN_RECIPE_BACKGROUND = "#01041A"
 
 # color

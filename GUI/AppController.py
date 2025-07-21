@@ -12,7 +12,7 @@ class AppController(tk.Tk):
 
         # These are always true, and therefore set by the AppController, sets window title, size, and disables resizing
         self.title(APP_TITLE)
-        self.resizable(True, False)
+        self.resizable(False, False)
 
         # container is what "holds" the different Windows
         container = tk.Frame(self, bd=4, relief="ridge")
