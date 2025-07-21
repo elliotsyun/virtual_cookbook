@@ -4,6 +4,7 @@ from RecipeDatabase import *
 from tkinter.font import Font
 from Constants import *
 from GUI.AppFooter import *
+from GUI.AppHeader import *
 
 class MainFrame(tk.Frame):
     
@@ -22,18 +23,19 @@ class MainFrame(tk.Frame):
         # self.welcome_test_message = tk.Label(self, text="Good Eats", font=self.title_font)
         # self.welcome_test_message.grid(row=0, column=2)
         
-        
         # CODE FOR DISPLAYING RECIPES STARTS HERE (we may want to make this a separate class)
+
+        self.header = AppHeader(self, controller)
 
         # Main container frame (light blue)
         self.recipe_container_frame = tk.Frame(self, bg=RECIPE_CONTAINER_COLOR, width=WINDOW_WIDTH, height=WINDOW_HEIGHT, bd=TESTING_BORDER_SIZE, relief=TESTING_BORDER_TYPE)
-        self.recipe_container_frame.grid(row=0, column=0, sticky="nsew")
+        self.recipe_container_frame.grid(row=1, column=0, sticky="nsew")
 
         self.grid_rowconfigure(2, weight=1)
         self.grid_columnconfigure(2, weight=1)
 
         # Add canvas, the part of the window WITHOUT recipes on top of it (fills in the rest of the window)
-        canvas = tk.Canvas(self.recipe_container_frame, bg=RECIPE_CONTAINER_COLOR, highlightthickness=0, width=WINDOW_WIDTH, height=(WINDOW_HEIGHT - WINDOW_FOOTER_HEIGHT), bd=TESTING_BORDER_SIZE, relief=TESTING_BORDER_TYPE) 
+        canvas = tk.Canvas(self.recipe_container_frame, bg=RECIPE_CONTAINER_COLOR, highlightthickness=0, width=WINDOW_WIDTH, height=(WINDOW_HEIGHT - WINDOW_FOOTER_HEIGHT - HEADER_HEIGHT), bd=TESTING_BORDER_SIZE, relief=TESTING_BORDER_TYPE) 
         canvas.pack(side="left", fill="both", expand=True)        
         # NOTE: Height the bottom buffer should match the size of the buttons on the bottom
         
@@ -43,7 +45,7 @@ class MainFrame(tk.Frame):
         # scrollbar.pack(side="right", fill="y")
 
         # Internal scrollable frame
-        self.scrollable_frame = tk.Frame(canvas, bg="blue", width=WINDOW_WIDTH, height=(WINDOW_HEIGHT - WINDOW_FOOTER_HEIGHT), bd=TESTING_BORDER_SIZE, relief=TESTING_BORDER_TYPE)
+        self.scrollable_frame = tk.Frame(canvas, bg=MAIN_RECIPE_BACKGROUND, width=WINDOW_WIDTH, height=(WINDOW_HEIGHT - WINDOW_FOOTER_HEIGHT - HEADER_HEIGHT), bd=TESTING_BORDER_SIZE, relief=TESTING_BORDER_TYPE)
         self.scrollable_frame.bind(
             "<Configure>",
             lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
@@ -62,6 +64,7 @@ class MainFrame(tk.Frame):
             recipe.to_frame(self.scrollable_frame, i)
         
         self.footer = AppFooter(self, controller)
+        
 
   
 
