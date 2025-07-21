@@ -17,11 +17,11 @@ def main():
     # after the main loop, write all of the session data to the database
     db = RecipeDatabase()
 
-    rated_recipe = Recipe(['pp1'], ['aa1'], 'rated')
-    rated_recipe = RatedRecipeDecorator(rated_recipe, 99)
-    db.addToDatabase(rated_recipe)
-    rated_recipe = ProteinRecipeDecorator(rated_recipe, 21)
-    db.addToDatabase(rated_recipe)    
+    # rated_recipe = Recipe(['pp1'], ['aa1'], 'rated')
+    # rated_recipe = RatedRecipeDecorator(rated_recipe, 99)
+    # db.addToDatabase(rated_recipe)
+    # rated_recipe = ProteinRecipeDecorator(rated_recipe, 21)
+    # db.addToDatabase(rated_recipe)    
 
     db.writeToDatabase()
     

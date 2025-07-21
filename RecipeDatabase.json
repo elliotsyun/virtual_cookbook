@@ -168,5 +168,37 @@
                 ]
             }
         }
+    },
+    {
+        "type": "RatedRecipeDecorator",
+        "rating": 99,
+        "recipe": {
+            "type": "Recipe",
+            "title": "rated",
+            "ingredients": [
+                "pp1"
+            ],
+            "steps": [
+                "aa1"
+            ]
+        }
+    },
+    {
+        "type": "ProteinRecipeDecorator",
+        "protein": 21,
+        "recipe": {
+            "type": "RatedRecipeDecorator",
+            "rating": 99,
+            "recipe": {
+                "type": "Recipe",
+                "title": "rated",
+                "ingredients": [
+                    "pp1"
+                ],
+                "steps": [
+                    "aa1"
+                ]
+            }
+        }
     }
 ]
