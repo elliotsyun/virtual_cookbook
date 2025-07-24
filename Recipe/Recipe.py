@@ -1,6 +1,14 @@
 from typing import List
 import time
 
+import tkinter as tk
+
+# scaling
+RECIPE_CENTER_PADDING = 105 # -> i have no idea why 105 specifically puts the recipes in the middle...
+
+# color
+RECIPE_DISPLAY_BACKGROUND_COLOR = "green"
+
 # the recipe class is the most basic recipe possible
 class Recipe():
 
@@ -33,3 +41,17 @@ class Recipe():
     @classmethod
     def from_dict(cls, data):
         return cls(data["ingredients"], data["steps"], data["title"])
+    
+    # i am almost CERTAIN that this is the kind of function we need to display the recipe information...
+    def to_frame(self, root, placement):
+
+
+        # note: bd = border, border=4 for testing purposes
+        recipe_frame = tk.Frame(root, bg=RECIPE_DISPLAY_BACKGROUND_COLOR, bd=4, relief="ridge")
+        recipe_frame.pack(fill="x", padx=(RECIPE_CENTER_PADDING), pady=10)
+
+        tk.Label(recipe_frame, text=self.title, font=("Arial", 14, "bold"), bg=RECIPE_DISPLAY_BACKGROUND_COLOR).pack(anchor="w", padx=10, pady=5)
+        tk.Label(recipe_frame, text=f"{len(self.ingredients)} ingredients", font=("Arial", 12), bg=RECIPE_DISPLAY_BACKGROUND_COLOR).pack(anchor="w", padx=10)
+        tk.Label(recipe_frame, text=f"{len(self.steps)} steps", font=("Arial", 12), bg=RECIPE_DISPLAY_BACKGROUND_COLOR).pack(anchor="w", padx=10)
+
+        return recipe_frame

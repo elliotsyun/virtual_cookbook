@@ -1,5 +1,6 @@
 import tkinter as tk
 from GUI.MainFrame import *
+from GUI.AppFooter import *
 from Recipe.RatedRecipeDecorator import *
 from Recipe.ProteinRecipeDecorator import *
 from RecipeDatabase import *
@@ -12,6 +13,7 @@ class NewRecipeFrame(tk.Frame):
         
         # call the tk.Frame constructor
         super().__init__(parent)
+        self.parent = parent
         self.controller = controller
 
         # creating a reference to the RecipeDatabase
@@ -39,7 +41,7 @@ class NewRecipeFrame(tk.Frame):
         # test code for outlining page navigation, clicking the button re-displays the MainWindow
         tk.Button(self, text="Go back", command=lambda: controller.showFrame(1)).grid(row=5, column=0)    
         tk.Button(self, text="Save recipe", command=self.createNewRecipe).grid(row=5, column=1)
-
+        
     def createNewRecipe(self):
         print("This would create a new recipe")
         
@@ -55,6 +57,9 @@ class NewRecipeFrame(tk.Frame):
 
         # Add the recipe to the database and return the user to the MainFrame
         self.recipe_database.addToDatabase(new_recipe)
+
+        self.controller.frames[1].load_new_recipe(new_recipe)
+
         self.controller.showFrame(1)
 
 

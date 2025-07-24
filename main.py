@@ -8,47 +8,22 @@ from Recipe.RatedRecipeDecorator import *
 from Recipe.ProteinRecipeDecorator import *
 from RecipeDatabase import *
 
+WINDOW_LENGTH = 375
 
 def main():
     app = AppController()
     app.mainloop()
-    db = RecipeDatabase()
     
-    decorator1 = Recipe(["1", "2"], ["4", "5"], "test")
-    decorator2 = RatedRecipeDecorator(decorator1, 5)
-    db.addToDatabase(decorator2)
+    # after the main loop, write all of the session data to the database
+    db = RecipeDatabase()
 
-    decorator3 = ProteinRecipeDecorator(decorator2, 21)
-    db.addToDatabase(decorator3)
+    # rated_recipe = Recipe(['pp1'], ['aa1'], 'rated')
+    # rated_recipe = RatedRecipeDecorator(rated_recipe, 99)
+    # db.addToDatabase(rated_recipe)
+    # rated_recipe = ProteinRecipeDecorator(rated_recipe, 21)
+    # db.addToDatabase(rated_recipe)    
 
     db.writeToDatabase()
-    db.printDatabase()
-
-    decorator1 = Recipe(["1", "2"], ["4", "5"], "test")
-    # decorator2 = RatedRecipeDecorator(decorator1, 5)
-    # decorator3 = ProteinRecipeDecorator(decorator2, 21)
-    # print(decorator3.fields)
-
-    # s1 = RecipeDatabase()
-    # s2 = RecipeDatabase()
-    
-    # s1.addToDatabase(decorator1)
-    # s2.addToDatabase(decorator1)
-
-    # if id(s1) == id(s2):
-    #     print("Singleton works, both variables contain the same instance.")
-    # else:
-    #     print("Singleton failed, variables contain different instances.")    
-
-    # print("printing")
-
-    # for recipe in s1.database:
-    #     print(recipe.title)
-
-    
-
-
-
     
 
 if __name__ == "__main__":
