@@ -1,2 +1,5 @@
 requests
 Pillow
+Flask
+Flask-SQLAlchemy
+flask-cors

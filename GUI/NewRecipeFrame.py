@@ -4,8 +4,8 @@ from GUI.AppFooter import *
 from Recipe.RatedRecipeDecorator import *
 from Recipe.ProteinRecipeDecorator import *
 from RecipeDatabase import *
+from Constants import *
 
-NEW_RECIPE_FRAME_ID = 2
 class NewRecipeFrame(tk.Frame):
     
     # Each window should have
@@ -58,6 +58,7 @@ class NewRecipeFrame(tk.Frame):
         # Add the recipe to the database and return the user to the MainFrame
         self.recipe_database.addToDatabase(new_recipe)
 
+        # this is a kinda goofy reference, but 'self.controller.frames[id]' is a good way to reference a 'different' specific frame
         self.controller.frames[1].load_new_recipe(new_recipe)
 
         self.controller.showFrame(1)
