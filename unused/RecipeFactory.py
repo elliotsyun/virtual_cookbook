@@ -1,4 +1,4 @@
-from Recipe.Recipe import Recipe
+from Recipe import Recipe
 
 # needed a way to read the decorated Recipe objects back from file/database
 class RecipeFactory():

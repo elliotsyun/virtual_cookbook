@@ -1,6 +1,7 @@
-import React from "react"
 
-const RecipeList = ({ recipes, updateRecipe, updateCallback }) => {
+
+export function RecipeList({ recipes, updateRecipe, updateCallback }) {    
+
     const onDelete = async (id) => {
         try {
             const options = {
@@ -23,7 +24,6 @@ const RecipeList = ({ recipes, updateRecipe, updateCallback }) => {
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,5 +40,3 @@ const RecipeList = ({ recipes, updateRecipe, updateCallback }) => {
         </table>
     </div>
 }
-
-export default RecipeList

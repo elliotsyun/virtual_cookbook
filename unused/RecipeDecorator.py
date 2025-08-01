@@ -1,4 +1,4 @@
-from Recipe.Recipe import *
+from Recipe import *
 from Recipe.RecipeFactory import *
 
 # RecipeDecorator allows us to wrap recipes with additional functionality/attributes
