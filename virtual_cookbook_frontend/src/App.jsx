@@ -5,6 +5,7 @@ import { Layout } from './componenets/Layout';
 import { Home } from './pages/Home';
 import { AddRecipe } from './pages/AddRecipe';
 import { EditRecipe } from './pages/EditRecipe';
+import { Category } from './pages/Category';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<Home recipes={recipes} setRecipes={setRecipes} currentRecipe={currentRecipe} setCurrentRecipe={setCurrentRecipe} />} />
             <Route path="/add_recipe" element={<AddRecipe/>}/>
             <Route path="/edit_recipe" element={<EditRecipe currentRecipe={currentRecipe} setCurrentRecipe={setCurrentRecipe}/>} />
+            <Route path="/category" element={<Category recipes={recipes} setRecipes={setRecipes} currentRecipe={currentRecipe} setCurrentRecipe={setCurrentRecipe} />} />            
           </Route>
         </Routes>
       </Router>

@@ -13,7 +13,12 @@ export function Navbar() {
             <button>
                 Add Recipe
             </button>
-        </Link>        
+        </Link>      
+        <Link to="/category">
+            <button>
+                Categories
+            </button>
+        </Link>              
         </>
     )
 }

@@ -28,13 +28,15 @@ export function RecipeList({ recipes, updateRecipe, updateCallback }) {
             </thead>
             <tbody>
                 {recipes.map((recipe) => (
-                    <tr key={recipe.id}>
-                        <td>{recipe.title}</td>
-                        <td>
-                            <button onClick={() => updateRecipe(recipe)}>Update</button>
-                            <button onClick={() => onDelete(recipe.id)}>Delete</button>
-                        </td>
-                    </tr>
+                    <button>
+                        <tr key={recipe.id}>
+                            <td>{recipe.title}</td>
+                            <td>
+                                <button onClick={() => updateRecipe(recipe)}>Update</button>
+                                <button onClick={() => onDelete(recipe.id)}>Delete</button>
+                            </td>
+                        </tr>
+                    </button>
                 ))}
             </tbody>
         </table>

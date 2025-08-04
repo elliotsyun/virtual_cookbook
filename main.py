@@ -16,14 +16,33 @@ def get_recipes():
     # convert the list of json_recipes to a proper json response for html
     return jsonify({"recipes": json_recipes})
 
+# an example get request for sorting
+@app.route("/breakfast", methods=["GET"])
+def get_breakfast_recipes():
+
+    # returns a list of all RecipeObject instances
+    recipes = RecipeObject.query.all()
+
+    # EXAMPLE, if "TEST" is in the tags... if we were actually looking for breakfast, then "breakfast" would be in the tags
+    breakfast_recipes = list(filter(lambda recipe: "test" in recipe.tags, recipes))
+
+    # convert all of the recipes to json by mapping the to_json() function onto them, then convert that to a list (instead of a dict)
+    json_recipes = list(map(lambda x: x.to_json(), breakfast_recipes))
+
+
+    # convert the list of json_recipes to a proper json response for html
+    return jsonify({"recipes": json_recipes})
+
+
 # a "post" request for creating new recipes in the database
 @app.route("/create_recipe", methods=["POST"])
 def create_recipe():
 
-    # 
+    # HERE ARE THE COLUMNS
     recipe_title = request.json.get("title")
     recipe_steps = request.json.get("steps")
     recipe_ingredients = request.json.get("ingredients")
+    recipe_tags = request.json.get("tags")
     # -> here is where more database fields will be added/prompted for
 
     # if the user doesn't provide a title, then create an error with error code 400
@@ -36,7 +55,8 @@ def create_recipe():
     # otherwise, create a new RecipeObject, with all of the fields provided
     new_recipe = RecipeObject(title=recipe_title, 
                               steps=json.dumps(recipe_steps), 
-                              ingredients=json.dumps(recipe_ingredients))
+                              ingredients=json.dumps(recipe_ingredients),
+                              tags=json.dumps(recipe_tags))
 
 
     # try to add it to the database
@@ -75,6 +95,9 @@ def update_recipe(recipe_id):
 
     if "ingredients" in data:
         recipe.ingredients = json.dumps(data["ingredients"])
+        
+    if "tags" in data:
+        recipe.tags = json.dumps(data["tags"])        
 
     # push to the database, ensuring the new information is saved
     db.session.commit()

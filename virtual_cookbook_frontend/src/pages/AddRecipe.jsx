@@ -1,27 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { MultiField } from "../componenets/MultiField";
 
 export function AddRecipe () {
     const [title, setTitle] = useState("");
     const [steps, setSteps] = useState([""]);
     const [ingredients, setIngredients] = useState([""]);
+    const [tags, setTags] = useState([""]);
+    
 
     const navigate = useNavigate();
-
-    // currently only for ingredients/steps, adding boxes
-    const handleAddField = (stateVar, setter) => {
-        const values = [...stateVar];
-        values.push("")
-        setter(values);
-    };
-
-    // when the input of a box is changed, add to the state variable array
-    const handleInputChange = (index, event, stateVar, setter) => {
-        const values = [...stateVar];
-        const updatedValue = event.target.name;
-        values[index] = event.target.value;
-        setter(values);
-    };    
 
     // logic for submitting a POST request
     const onSubmit = async (e) => {
@@ -31,6 +19,7 @@ export function AddRecipe () {
             title,
             steps,
             ingredients,
+            tags,
         }
         const url = "http://127.0.0.1:5000/" + "create_recipe"
         const options = {
@@ -63,43 +52,10 @@ export function AddRecipe () {
                 />
             </div>
             
-            { /* ADD STEPS FIELDS -> in future these should be components */ }
-            <div>               
-                {steps.map((step, index) => (
-                    <div key={index}>
-                        <label  >Step {index + 1} </label>
-
-                        <input
-                            id={"step" + index} 
-                            type="text"
-                            value={step}    
-                            onChange={(e) => handleInputChange(index, e, steps, setSteps)}
-                        />
-                    </div>
-                ))}
-            </div> 
-            <button type="button" onClick={() => handleAddField(steps, setSteps)}>
-                Add Step
-            </button>   
+            { /* Fields for adding multiple ingredients/steps */ }
+            <MultiField stateVar={steps} setter={setSteps} fieldUnit={"Step"}/>
             
-            { /* ADD INGREDIENT FIELDS -> in future these should be components */ }
-            <div>               
-                {ingredients.map((ingredient, index) => (
-                    <div key={index}>
-                        <label>Ingredient {index + 1} </label>
-
-                        <input
-                            id={"ingredient" + index}
-                            type="text"
-                            value={ingredient}
-                            onChange={(e) => handleInputChange(index, e, ingredients, setIngredients)}
-                        />
-                    </div>
-                ))}
-            </div> 
-            <button type="button" onClick={() => handleAddField(ingredients, setIngredients)}>
-                Add Ingredient
-            </button>   
+            <MultiField stateVar={ingredients} setter={setIngredients} fieldUnit={"Ingredient"}/>
             
             { /* SUBMIT BUTTON */ }
             <div>

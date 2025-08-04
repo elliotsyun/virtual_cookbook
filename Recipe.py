@@ -9,6 +9,7 @@ class RecipeObject(db.Model):
     title = db.Column(db.String(80), unique=True, nullable=False)
     steps = db.Column(db.Text, unique=False, nullable=False)
     ingredients = db.Column(db.Text, unique=False, nullable=False)
+    tags = db.Column(db.Text, unique=False, nullable=False)
 
 
     # convert RecipeObjects to JSON for the frontend
@@ -18,4 +19,5 @@ class RecipeObject(db.Model):
             "title": self.title,
             "steps": json.loads(self.steps) if self.steps else [],
             "ingredients": json.loads(self.ingredients) if self.ingredients else [],
+            "tags": json.loads(self.tags) if self.tags else [],
         }
