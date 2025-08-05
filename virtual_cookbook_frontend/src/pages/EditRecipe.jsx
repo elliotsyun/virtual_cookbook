@@ -7,26 +7,26 @@ export function EditRecipe({currentRecipe, setCurrentRecipe}) {
     const [steps, setSteps] = useState(currentRecipe.steps || [""])
     const [ingredients, setIngredients] = useState(currentRecipe.ingredients || [""])
     const [tags, setTags] = useState(currentRecipe.tags || [""])
+    const [imageFile, setImageFile] = useState(currentRecipe.image);
 
     const navigate = useNavigate();
 
     const onSubmit = async (e) => {
         e.preventDefault()
 
-        const data = {
-            title,
-            steps,
-            ingredients,
-            tags,
-        }
+        // FormData allows for file transfer, while the JSON I had it previously didn't support that
+        const formData = new FormData();
+        formData.append("title", title)
+        formData.append("steps", JSON.stringify(steps));
+        formData.append("ingredients", JSON.stringify(ingredients));
+        formData.append("tags", JSON.stringify(tags));
+
         const url = "http://127.0.0.1:5000/" + `update_recipe/${currentRecipe.id}`
         const options = {
             method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
+            body: formData
         }
+
         const response = await fetch(url, options)
       
         if (response.status !== 201 && response.status !== 200) {

@@ -7,29 +7,34 @@ export function AddRecipe () {
     const [steps, setSteps] = useState([""]);
     const [ingredients, setIngredients] = useState([""]);
     const [tags, setTags] = useState([""]);
+    const [imageFile, setImageFile] = useState(null);
     
-
     const navigate = useNavigate();
 
     // logic for submitting a POST request
     const onSubmit = async (e) => {
         e.preventDefault()
 
-        const data = {
-            title,
-            steps,
-            ingredients,
-            tags,
-        }
+        // FormData allows for file transfer, while the JSON I had it previously didn't support that
+        const formData = new FormData();
+        formData.append("title", title)
+        formData.append("steps", JSON.stringify(steps));
+        formData.append("ingredients", JSON.stringify(ingredients));
+        formData.append("tags", JSON.stringify(tags));
+        
+        if (imageFile) {
+            formData.append("image", imageFile);
+        }        
+
         const url = "http://127.0.0.1:5000/" + "create_recipe"
+        
         const options = {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
+            body: formData
         }
+
         const response = await fetch(url, options)
+
         if (response.status !== 201 && response.status !== 200) {
             const data = await response.json()
             alert(data.message)
@@ -57,6 +62,17 @@ export function AddRecipe () {
             
             <MultiField stateVar={ingredients} setter={setIngredients} fieldUnit={"Ingredient"}/>
             
+            { /* IMAGE UPLOAD BUTTON */ }
+            <div>
+                <label>Image:</label>
+                <input
+                    type="file"
+                    accept="image/*"
+                    // NOTE THAT THE "files[0]" means that only one file upload is supported currently
+                    onChange={(e) => setImageFile(e.target.files[0])}
+                />
+            </div>
+
             { /* SUBMIT BUTTON */ }
             <div>
                 <button onClick={(e) => onSubmit(e)}>Create</button>            

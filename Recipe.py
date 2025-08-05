@@ -10,9 +10,9 @@ class RecipeObject(db.Model):
     steps = db.Column(db.Text, unique=False, nullable=False)
     ingredients = db.Column(db.Text, unique=False, nullable=False)
     tags = db.Column(db.Text, unique=False, nullable=False)
+    image = db.Column(db.Text, unique=False, nullable=False)
 
-
-    # convert RecipeObjects to JSON for the frontend
+    # convert RecipeObjects to a JSON object so it can be sent to the frontend
     def to_json(self):
         return {
             "id": self.id,
@@ -20,4 +20,5 @@ class RecipeObject(db.Model):
             "steps": json.loads(self.steps) if self.steps else [],
             "ingredients": json.loads(self.ingredients) if self.ingredients else [],
             "tags": json.loads(self.tags) if self.tags else [],
+            "image": self.image,
         }

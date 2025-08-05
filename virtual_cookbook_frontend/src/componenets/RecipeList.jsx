@@ -28,15 +28,24 @@ export function RecipeList({ recipes, updateRecipe, updateCallback }) {
             </thead>
             <tbody>
                 {recipes.map((recipe) => (
-                    <button>
-                        <tr key={recipe.id}>
-                            <td>{recipe.title}</td>
-                            <td>
-                                <button onClick={() => updateRecipe(recipe)}>Update</button>
-                                <button onClick={() => onDelete(recipe.id)}>Delete</button>
-                            </td>
-                        </tr>
-                    </button>
+                    // below we would put the recipe frame component
+                    <tr key={recipe.id}>
+                        <td>{recipe.title}</td>
+                        <td>
+                            <button onClick={() => updateRecipe(recipe)}>Update</button>
+                            <button onClick={() => onDelete(recipe.id)}>Delete</button>
+                        </td>
+                        <td>
+                            <div>
+                                <img    
+                                        // temporarily just display the image alongisde the buttons
+                                        src={`http://127.0.0.1:5000${recipe.image}`} 
+                                        alt={recipe.title}
+                                        style={{ height: "100px" }}>
+                                </img>
+                            </div>
+                        </td>
+                    </tr>
                 ))}
             </tbody>
         </table>

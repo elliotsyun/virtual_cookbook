@@ -3,6 +3,22 @@ from config import app, db
 from Recipe import RecipeObject
 import json
 
+# image upload imports
+import os
+from werkzeug.utils import secure_filename
+
+# NOTE: the upload folder is slightly deeper so it can be .gitignore'd
+UPLOAD_FOLDER = os.path.join("static", "images", "uploaded")
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
+DEFAULT_IMAGE_PATH = f"/static/images/default.jpg"
+
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 # for "Get" requests, we want to get all of the recipes in the database
 @app.route("/recipes", methods=["GET"])
 def get_recipes():
@@ -20,15 +36,17 @@ def get_recipes():
 @app.route("/breakfast", methods=["GET"])
 def get_breakfast_recipes():
 
+    # filter criteria
+    breakfast_tag = "breakfast"
+
     # returns a list of all RecipeObject instances
     recipes = RecipeObject.query.all()
 
     # EXAMPLE, if "TEST" is in the tags... if we were actually looking for breakfast, then "breakfast" would be in the tags
-    breakfast_recipes = list(filter(lambda recipe: "test" in recipe.tags, recipes))
+    breakfast_recipes = list(filter(lambda recipe: breakfast_tag in recipe.tags, recipes))
 
     # convert all of the recipes to json by mapping the to_json() function onto them, then convert that to a list (instead of a dict)
     json_recipes = list(map(lambda x: x.to_json(), breakfast_recipes))
-
 
     # convert the list of json_recipes to a proper json response for html
     return jsonify({"recipes": json_recipes})
@@ -39,25 +57,31 @@ def get_breakfast_recipes():
 def create_recipe():
 
     # HERE ARE THE COLUMNS
-    recipe_title = request.json.get("title")
-    recipe_steps = request.json.get("steps")
-    recipe_ingredients = request.json.get("ingredients")
-    recipe_tags = request.json.get("tags")
-    # -> here is where more database fields will be added/prompted for
+    recipe_title = request.form.get("title")
+    recipe_steps = json.loads(request.form.get("steps", "[]"))
+    recipe_ingredients = json.loads(request.form.get("ingredients", "[]"))
+    recipe_tags = json.loads(request.form.get("tags", "[]"))
+    recipe_image = request.files.get("image")
 
-    # if the user doesn't provide a title, then create an error with error code 400
-    if not recipe_title: # && other_fields... etc.
-        return (
-            jsonify({"message": "You must include a recipe title"}),
-            400,
-        )
+    # image upload
+    if recipe_image and allowed_file(recipe_image.filename):
+        filename = secure_filename(recipe_image.filename)
+        save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+        recipe_image.save(save_path)
+        image_path = f"/static/images/uploaded/{filename}"
+    else:
+        image_path = DEFAULT_IMAGE_PATH
 
-    # otherwise, create a new RecipeObject, with all of the fields provided
-    new_recipe = RecipeObject(title=recipe_title, 
-                              steps=json.dumps(recipe_steps), 
-                              ingredients=json.dumps(recipe_ingredients),
-                              tags=json.dumps(recipe_tags))
+    if not recipe_title:
+        return jsonify({"message": "You must include a recipe title"}), 400
 
+    new_recipe = RecipeObject(
+        title=recipe_title,
+        steps=json.dumps(recipe_steps),
+        ingredients=json.dumps(recipe_ingredients),
+        tags=json.dumps(recipe_tags),
+        image=image_path
+    )
 
     # try to add it to the database
     try:
@@ -84,20 +108,28 @@ def update_recipe(recipe_id):
         return jsonify({"message": "Recipe not found"}), 404
 
     # the data in the request from the frontend
-    data = request.json
+    data = request.form
 
     # if the data contains a title, then replace the recipe's title with the new title, otherwise, keep using the existing title
     recipe.title = data.get("title", recipe.title)
     
-    # NOTE: SQLAlchemy cannot have columns with arrays, so array data must be converted to JSON before storing
+    # NOTE: my previous message was something about JSON not having arrays, now sending as a "FormData", I can send/recieve arrays?
     if "steps" in data:
-        recipe.steps = json.dumps(data["steps"])
+        recipe.steps = (data["steps"])
 
     if "ingredients" in data:
-        recipe.ingredients = json.dumps(data["ingredients"])
+        recipe.ingredients = (data["ingredients"])
         
     if "tags" in data:
-        recipe.tags = json.dumps(data["tags"])        
+        recipe.tags = (data["tags"])    
+
+    # there's still nowhere to edit the image on the "EditRecipe" page, but this code would be needed to upload a new image
+    recipe_image = request.files.get("image")
+    if recipe_image and allowed_file(recipe_image.filename):
+        filename = secure_filename(recipe_image.filename)
+        save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+        recipe_image.save(save_path)
+        recipe.image = f"/static/images/uploaded{filename}"
 
     # push to the database, ensuring the new information is saved
     db.session.commit()

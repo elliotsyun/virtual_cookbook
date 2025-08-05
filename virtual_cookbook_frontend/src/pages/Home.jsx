@@ -18,6 +18,14 @@ export function Home({recipes, setRecipes, currentRecipe, setCurrentRecipe}) {
         console.log(data.recipes)
     }
 
+    // testing sorting functionality, here we're only getting the breakfast recipes
+    const fetchBreakfastRecipes = async () => {
+        const response = await fetch("http://127.0.0.1:5000/breakfast")
+        const data = await response.json()
+        setRecipes(data.recipes)    
+        console.log(data.recipes)
+    }        
+
     const openEditPage = (recipe) => {
         setCurrentRecipe(recipe)
         navigate('/edit_recipe')
@@ -26,6 +34,8 @@ export function Home({recipes, setRecipes, currentRecipe, setCurrentRecipe}) {
   return (
     <div>
       <h1>Everybody Eats</h1>  
+        <button onClick={fetchBreakfastRecipes}>Filter Breakfast</button>
+        <button onClick={fetchRecipes}>Remove Filter</button>
         <RecipeList recipes={recipes} updateRecipe={openEditPage} updateCallback={fetchRecipes}/>
     </div>
   );
