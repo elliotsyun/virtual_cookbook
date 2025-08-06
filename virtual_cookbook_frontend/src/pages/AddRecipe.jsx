@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MultiField } from "../componenets/MultiField";
+import { ImageUpload } from "../componenets/ImageUpload";
 
 export function AddRecipe () {
     const [title, setTitle] = useState("");
@@ -62,16 +63,7 @@ export function AddRecipe () {
             
             <MultiField stateVar={ingredients} setter={setIngredients} fieldUnit={"Ingredient"}/>
             
-            { /* IMAGE UPLOAD BUTTON */ }
-            <div>
-                <label>Image:</label>
-                <input
-                    type="file"
-                    accept="image/*"
-                    // NOTE THAT THE "files[0]" means that only one file upload is supported currently
-                    onChange={(e) => setImageFile(e.target.files[0])}
-                />
-            </div>
+            <ImageUpload setImageFile={setImageFile}/>
 
             { /* SUBMIT BUTTON */ }
             <div>

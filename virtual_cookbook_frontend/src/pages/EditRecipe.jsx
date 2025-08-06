@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MultiField } from "../componenets/MultiField";
+import { ImageUpload } from "../componenets/ImageUpload";
 
 export function EditRecipe({currentRecipe, setCurrentRecipe}) {
     const [title, setTitle] = useState(currentRecipe.title)
     const [steps, setSteps] = useState(currentRecipe.steps || [""])
     const [ingredients, setIngredients] = useState(currentRecipe.ingredients || [""])
     const [tags, setTags] = useState(currentRecipe.tags || [""])
-    const [imageFile, setImageFile] = useState(currentRecipe.image);
+    const [imageFile, setImageFile] = useState(currentRecipe.image || null);
 
     const navigate = useNavigate();
 
@@ -20,6 +21,10 @@ export function EditRecipe({currentRecipe, setCurrentRecipe}) {
         formData.append("steps", JSON.stringify(steps));
         formData.append("ingredients", JSON.stringify(ingredients));
         formData.append("tags", JSON.stringify(tags));
+        
+        if (imageFile) {
+            formData.append("image", imageFile);
+        }  
 
         const url = "http://127.0.0.1:5000/" + `update_recipe/${currentRecipe.id}`
         const options = {
@@ -55,6 +60,8 @@ export function EditRecipe({currentRecipe, setCurrentRecipe}) {
             <MultiField stateVar={ingredients} setter={setIngredients} fieldUnit={"Ingredient"}/>
          
             <MultiField stateVar={tags} setter={setTags} fieldUnit={"Tag"}/>
+
+            <ImageUpload setImageFile={setImageFile}/>
 
             <button type="submit">Update</button>
         </form>

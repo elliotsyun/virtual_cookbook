@@ -3,21 +3,11 @@ from config import app, db
 from Recipe import RecipeObject
 import json
 
-# image upload imports
-import os
-from werkzeug.utils import secure_filename
+from ImageLoader import upload_image, edit_image, create_upload_folder
 
 # NOTE: the upload folder is slightly deeper so it can be .gitignore'd
-UPLOAD_FOLDER = os.path.join("static", "images", "uploaded")
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-
-ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
-DEFAULT_IMAGE_PATH = f"/static/images/default.jpg"
-
+UPLOAD_FOLDER = create_upload_folder()
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # for "Get" requests, we want to get all of the recipes in the database
 @app.route("/recipes", methods=["GET"])
@@ -63,14 +53,7 @@ def create_recipe():
     recipe_tags = json.loads(request.form.get("tags", "[]"))
     recipe_image = request.files.get("image")
 
-    # image upload
-    if recipe_image and allowed_file(recipe_image.filename):
-        filename = secure_filename(recipe_image.filename)
-        save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-        recipe_image.save(save_path)
-        image_path = f"/static/images/uploaded/{filename}"
-    else:
-        image_path = DEFAULT_IMAGE_PATH
+    image_path = upload_image(recipe_image=recipe_image)
 
     if not recipe_title:
         return jsonify({"message": "You must include a recipe title"}), 400
@@ -125,11 +108,9 @@ def update_recipe(recipe_id):
 
     # there's still nowhere to edit the image on the "EditRecipe" page, but this code would be needed to upload a new image
     recipe_image = request.files.get("image")
-    if recipe_image and allowed_file(recipe_image.filename):
-        filename = secure_filename(recipe_image.filename)
-        save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-        recipe_image.save(save_path)
-        recipe.image = f"/static/images/uploaded{filename}"
+
+    # if we recieve an image then the recipe.image is set to the newly input image (new_image)
+    edit_image(new_image=recipe_image, recipe=recipe)
 
     # push to the database, ensuring the new information is saved
     db.session.commit()
